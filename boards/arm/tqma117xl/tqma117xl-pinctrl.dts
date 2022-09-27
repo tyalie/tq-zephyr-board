@@ -1,0 +1,17 @@
+#include <nxp/nxp_imx/rt/mimxrt1176cvm8a-pinctrl.dtsi>
+
+&pinctrl {
+  pinmux_flexspi1: pinmux_flexspi1 {
+    group0 {
+      pinmux = <&iomuxc_gpio_ad_17_flexspi1_a_dqs>,
+          <&iomuxc_gpio_ad_18_flexspi1_a_ss0_b>,
+          <&iomuxc_gpio_ad_19_flexspi1_a_sclk>,
+          <&iomuxc_gpio_ad_20_flexspi1_a_data00>,
+          <&iomuxc_gpio_ad_21_flexspi1_a_data01>,
+          <&iomuxc_gpio_ad_22_flexspi1_a_data02>,
+          <&iomuxc_gpio_ad_23_flexspi1_a_data03>;
+      bias-pull-down;
+      input-enable;
+    };
+  };
+};

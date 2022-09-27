@@ -1,0 +1,21 @@
+if BOARD_TQMA117XL
+
+config BOARD
+  default "tqma117xl"
+
+choice CODE_LOCATION
+  default CODE_FLEXSPI
+endchoice
+
+if FLASH
+
+#config FLASH_MCUX_FLEXSPI_NOR
+#  default y
+
+choice FLASH_MCUX_FLEXSPI_XIP_MEM_TARGET
+  default FLASH_MCUX_FLEXSPI_XIP_MEM_ITCM
+endchoice
+
+endif # FLASH
+
+endif # TQMA117XL

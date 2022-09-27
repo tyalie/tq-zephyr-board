@@ -1,0 +1,94 @@
+/dts-v1/;
+
+#include <nxp/nxp_rt1170_cm7.dtsi>
+#include "tqma117xl-pinctrl.dts"
+
+/ {
+  model = "TQ TQMa117xL module";
+  compatible = "nxp,mimxrt1176";
+
+  aliases {
+    led0 = &green_led;
+  };
+
+  chosen {
+    zephyr,sram = &sdram0;
+    zephyr,dtcm = &dtcm;
+    zephyr,itcm = &itcm;
+    zephyr,flash-controller = &mt_nor_flash;
+    zephyr,flash = &mt_nor_flash;
+    zephyr,code-partition = &slot0_partition;
+  };
+
+  sdram0: memory@80000000 {
+    /* Winbond */
+    device_type = "memory";
+    reg = <0x80000000 DT_SIZE_M(64)>;
+  };
+
+  leds {
+    compatible = "gpio-leds";
+    green_led: led-1 {
+      gpios = <&gpio8 19 GPIO_ACTIVE_HIGH>;
+      label = "User LED V73";
+    };
+  };
+};
+
+&flexspi {
+  pinctrl-0 = <&pinmux_flexspi1>;
+  pinctrl-names = "default";
+
+  status = "okay";
+  ahb-prefetch;
+  ahb-read-addr-opt;
+  rx-clock-source = <1>;
+  reg = <0x400cc000 0x4000>, <0x30000000 DT_SIZE_M(16)>;
+  mt_nor_flash: mt_nor_flash@0 {
+    compatible = "nxp,imx-flexspi-nor";
+    label = "MT_NOR_FLASH";
+    size = <0x2000000>;
+    reg = <0>;
+    spi-max-frequency = <133000000>;
+    status = "okay";
+    jedec-id = [20 bb 19];
+    erase-block-size = <4096>;
+    write-block-size = <1>;
+
+    partitions {
+      compatible = "fixed-partitions";
+      #address-cells = <1>;
+      #size-cells = <1>;
+
+      boot_partition: partition@0 {
+        label = "mcuboot";
+        reg = <0x00000000 DT_SIZE_K(128)>;
+      };
+      slot0_partition: partition@20000 {
+        label = "image-0";
+        reg = <0x00020000 DT_SIZE_M(3)>;
+      };
+      slot1_partition: partition@320000 {
+        label = "image-1";
+        reg = <0x00320000 DT_SIZE_M(3)>;
+      };
+      scratch_partition: partition@620000 {
+        label = "image-scratch";
+        reg = <0x00620000 DT_SIZE_K(128)>;
+      };
+      storage_partition: partition@640000 {
+        label = "storage";
+        reg = <0x00640000 DT_SIZE_K(1856)>;
+      };
+    };
+  };
+};
+
+
+&gpt_hw_timer {  // instead of systick
+  status = "okay";
+};
+
+&green_led {
+  status = "okay";
+};
