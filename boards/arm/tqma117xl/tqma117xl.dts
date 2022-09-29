@@ -23,7 +23,7 @@
   sdram0: memory@80000000 {
     /* Winbond */
     device_type = "memory";
-    reg = <0x80000000 DT_SIZE_M(64)>;
+    reg = <0x80000000 DT_SIZE_M(32)>;
   };
 
   leds {
