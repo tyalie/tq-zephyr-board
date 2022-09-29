@@ -11,7 +11,6 @@ void main(void) {
 
   volatile int ret;
 
-  /*
   if (!device_is_ready(led.port)) {
     return;
   }
@@ -20,16 +19,14 @@ void main(void) {
   if (ret < 0) {
     return;
   }
-  */
 
   while (1) {
     __asm__("nop\n\t");
-    /*
     ret = gpio_pin_toggle_dt(&led);
     if (ret < 0) {
       return;
     }
     k_msleep(SLEEP_TIME_MS);
-    */
+    
   }
 }
